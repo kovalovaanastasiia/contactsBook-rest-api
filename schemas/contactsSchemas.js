@@ -1,4 +1,5 @@
 import Joi from "joi";
+import {emailRegexp} from "../constants/user-constants.js";
 
 const contactsAddSchema = Joi.object({
     name: Joi.string()
@@ -7,7 +8,7 @@ const contactsAddSchema = Joi.object({
             "any.required": `"name" must be exist`
         }),
     email: Joi.string()
-        .email({minDomainSegments: 2, tlds: {allow: ['com', 'net']}})
+        .pattern(emailRegexp)
         .required()
         .messages({
             "any.required": `"email" must be exist`

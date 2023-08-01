@@ -6,7 +6,16 @@ import controllerWrapper from "../decorators/controllerWrapper.js";
 import HttpError from "../helpers/HttpError.js";
 
 const getAll = async (req, res) => {
-    const result = await Contact.find();
+    const {_id: owner} = req.user;
+    const {page = 1, limit = 20} = req.query;
+    const {favorite = null} = req.query;
+    const skip = (page - 1) * limit;
+    let result;
+    if (favorite) {
+        result = await Contact.find({owner, favorite}, "", {skip, limit}).populate("owner");
+    } else {
+        result = await Contact.find({owner}, "", {skip, limit}).populate("owner");
+    }
     res.json(result)
 };
 const getById = async (req, res) => {
@@ -18,7 +27,8 @@ const getById = async (req, res) => {
     res.json(result)
 };
 const add = async (req, res) => {
-    const result = await Contact.create(req.body);
+    const {_id: owner} = req.user;
+    const result = await Contact.create({...req.body, owner});
     res.status(201).json(result);
 };
 const deleteById = async (req, res) => {
@@ -47,11 +57,12 @@ const updateStatusContact = async (req, res) => {
     }
     res.json(result);
 };
+
 export default {
     getAll: controllerWrapper(getAll),
     getById: controllerWrapper(getById),
     add: controllerWrapper(add),
     updateStatusContact: controllerWrapper(updateStatusContact),
     deleteById: controllerWrapper(deleteById),
-    updateById: controllerWrapper(updateById)
+    updateById: controllerWrapper(updateById),
 }
