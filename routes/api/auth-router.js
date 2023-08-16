@@ -10,6 +10,8 @@ import authenticate from "../../middlewars/authenticate.js";
 
 import isEmptyBody from "../../middlewars/isEmptyBody.js";
 
+import upload from "../../middlewars/upload.js";
+
 const authRouter = express.Router();
 
 authRouter.post('/signup', validateBody(usersSchemas.authSchema), authController.signUp)
@@ -22,5 +24,6 @@ authRouter.get("/current", authenticate, authController.getCurrent);
 
 authRouter.patch("/", authenticate, isEmptyBody, validateBody(usersSchemas.updateSubscriptionSchema), authController.updateSubscription);
 
+authRouter.patch("/avatars", authenticate, upload.single("avatar"), authController.updateAvatar);
 
 export default authRouter;

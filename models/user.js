@@ -5,6 +5,9 @@ import {handleSaveError, validateAtUpdate} from "./hooks.js";
 import {emailRegexp, subscriptionList} from "../constants/user-constants.js";
 
 const userSchema = new Schema({
+    avatarURL: {
+        type: String,
+    },
     password: {
         type: String,
         required: [true, 'Set password for user'],
