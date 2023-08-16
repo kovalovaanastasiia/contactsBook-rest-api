@@ -14,9 +14,13 @@ import upload from "../../middlewars/upload.js";
 
 const authRouter = express.Router();
 
-authRouter.post('/signup', validateBody(usersSchemas.authSchema), authController.signUp)
+authRouter.post('/signup', validateBody(usersSchemas.authSchema), authController.signUp);
 
-authRouter.post('/signin', validateBody(usersSchemas.authSchema), authController.signIn)
+authRouter.post('/signin', validateBody(usersSchemas.authSchema), authController.signIn);
+
+authRouter.get('/verify/:verificationCode', authController.verify);
+
+authRouter.post('/verify', validateBody(usersSchemas.userEmailSchema), authController.resentVerificationCode);
 
 authRouter.post("/signout", authenticate, authController.signOut);
 
