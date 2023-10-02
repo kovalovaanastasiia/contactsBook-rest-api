@@ -24,7 +24,17 @@ const updateSubscriptionSchema = Joi.object({
             "any.required": 'missing required "subscription" field',
         }),
 });
+
+const userEmailSchema = Joi.object({
+    email: Joi.string()
+        .pattern(emailRegexp)
+        .required()
+        .messages({
+            "any.required": `"email" must be exist`
+        }),
+});
 export default {
     authSchema,
-    updateSubscriptionSchema
+    updateSubscriptionSchema,
+    userEmailSchema
 }

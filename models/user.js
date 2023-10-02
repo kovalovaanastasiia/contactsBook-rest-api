@@ -4,6 +4,7 @@ import {handleSaveError, validateAtUpdate} from "./hooks.js";
 
 import {emailRegexp, subscriptionList} from "../constants/user-constants.js";
 
+
 const userSchema = new Schema({
     avatarURL: {
         type: String,
@@ -23,7 +24,16 @@ const userSchema = new Schema({
         enum: subscriptionList,
         default: "starter"
     },
-    token: String
+    token: {
+        type: String
+    },
+    verify: {
+        type: Boolean,
+        default: false,
+    },
+    verificationCode: {
+       type: String
+    }
 }, {versionKey: false, timestamps: true});
 
 userSchema.pre("findOneAndUpdate", validateAtUpdate);
